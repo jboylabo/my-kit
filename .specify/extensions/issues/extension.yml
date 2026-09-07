@@ -1,0 +1,44 @@
+schema_version: "1.0"
+
+extension:
+  id: issues
+  name: "GitHub Issues Bridge"
+  version: "1.0.0"
+  description: "tasks.md を Issue 下書き (issues/issues.md) に変換し、レビュー後に gh CLI で GitHub Issue を作成して、着手時に Issue 連動ブランチを切る"
+  author: my-kit
+  license: MIT
+
+requires:
+  speckit_version: ">=0.8.5"
+  tools:
+    - name: gh
+      required: true
+    - name: python3
+      required: true
+    - name: git
+      required: true
+
+provides:
+  scripts:
+    - name: issues
+      file: scripts/bash/issues.sh
+      description: "init / status / push / branch のエントリポイント"
+    - name: issues-md
+      file: scripts/issues_md.py
+      description: "issues.md のパースと Issue 参照の書き戻し"
+  templates:
+    - name: issues-template
+      file: templates/issues-template.md
+      description: "Issue 下書きファイルの雛形"
+
+hooks:
+  after_tasks:
+    command: speckit.issues
+    optional: true
+    prompt: "タスクを GitHub の Issue として登録しますか？ 下書きを作るには /speckit-issues を実行してください。"
+    description: "tasks.md から GitHub Issue の下書き (issues/issues.md) を生成する"
+
+tags:
+  - "github"
+  - "issues"
+  - "workflow"
