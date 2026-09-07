@@ -1,0 +1,10 @@
+# Spec Kit extension hooks.
+# optional: true のフックは「提案」だけを出し、自動実行はしません。
+hooks:
+  after_tasks:
+    - extension: issues
+      command: speckit.issues
+      optional: true
+      enabled: true
+      description: "tasks.md から GitHub Issue の下書き (issues/issues.md) を生成する"
+      prompt: "タスクを GitHub の Issue として登録しますか？ 下書きを作るには /speckit-issues を実行してください。"
